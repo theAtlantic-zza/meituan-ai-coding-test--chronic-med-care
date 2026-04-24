@@ -4,6 +4,8 @@
 
 **帮助慢性病患者管理用药计划、智能提醒、药物查询的 AI 助手**
 
+**美团 AI Coding Test 作品 / Meituan AI Coding Test Submission**
+
 ![Next.js](https://img.shields.io/badge/Next.js_16-000?logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?logo=tailwindcss&logoColor=white)
@@ -16,6 +18,8 @@
 ## Why / 为什么做这个项目？
 
 > **复诊开药不难，难在坚持按时吃药。**
+
+本项目为 **美团 AI Coding Test** 的答题作品，围绕题目背景：慢性病患者线上复诊开药后，常忘记按时服药或重复购买，缺乏从“问诊→购药→用药→续方”的连贯服务。
 
 慢病患者线上复诊开药后，最常见的问题是：
 - 忘记按时服药 / 漏服
