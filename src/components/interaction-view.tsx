@@ -36,7 +36,7 @@ export default function InteractionView() {
 
   const severity: Record<string, { bg: string; border: string; text: string; label: string }> = {
     high:   { bg: 'bg-danger-light',  border: 'border-danger/20',  text: 'text-danger',  label: '⚠️ 高风险' },
-    medium: { bg: 'bg-warning-light', border: 'border-warning/20', text: 'text-warning', label: '⚡ 中风险' },
+    medium: { bg: 'bg-sky-50', border: 'border-sky-200/80', text: 'text-sky-900', label: '⚡ 中风险' },
     low:    { bg: 'bg-primary-light', border: 'border-primary/20', text: 'text-primary', label: 'ℹ️ 低风险' },
   };
 
@@ -50,9 +50,9 @@ export default function InteractionView() {
       <h2 className="text-lg font-bold">药物相互作用查询</h2>
       <p className="text-sm text-slate-400">输入两种药物名称，查询是否存在相互作用</p>
 
-      <div className="rounded-2xl p-4 border border-warning/20 bg-warning-light">
-        <p className="font-bold text-warning">⚠️ 医疗 AI 边界提示</p>
-        <p className="text-sm text-slate-600 mt-1">
+      <div className="rounded-2xl p-4 border border-amber-200 bg-amber-50 shadow-sm">
+        <p className="font-bold text-amber-700">⚠️ 医疗 AI 边界提示</p>
+        <p className="text-sm text-amber-700 mt-1 leading-relaxed">
           相互作用分析仅供参考，不替代医生或药师判断；如需调整用药，请咨询专业人员。
         </p>
       </div>

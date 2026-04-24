@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #0284c7;
-  --color-primary-light: #e0f2fe;
+  /* 主色接近产品稿蓝 #4A90E2，保证白字/蓝底对比度 */
+  --color-primary: #3d7dd6;
+  --color-primary-light: #e8f1fc;
   --color-success: #059669;
   --color-success-light: #d1fae5;
-  --color-warning: #d97706;
-  --color-warning-light: #fef3c7;
+  --color-warning: #0c4a6e;
+  --color-warning-light: #e0f2fe;
   --color-danger: #dc2626;
   --color-danger-light: #fee2e2;
 }
@@ -17,9 +18,30 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Elderly mode: scale root font → all rem values grow proportionally */
+/* 关怀模式：整体放大 + 正文明显加粗，便于阅读 */
 .elderly {
-  font-size: 137.5%;
+  font-size: 140%;
+}
+
+html.elderly {
+  font-weight: 600;
+}
+
+.elderly .font-normal {
+  font-weight: 600;
+}
+
+.elderly .font-medium {
+  font-weight: 700;
+}
+
+.elderly .font-bold {
+  font-weight: 800;
+}
+
+.elderly .text-xs,
+.elderly .text-sm {
+  font-weight: 600;
 }
 
 .elderly button,
@@ -32,4 +54,5 @@ body {
 .elderly textarea {
   min-height: 3rem;
   font-size: 1rem;
+  font-weight: 600;
 }

@@ -1,20 +1,20 @@
-export type DiseaseCategory = 'diabetes' | 'hypertension' | 'hyperlipidemia';
+export type DiseaseCategory = 'diabetes' | 'hypertension' | 'hyperlipidemia' | 'other';
 
 export type MealRelation = 'before_meal' | 'with_meal' | 'after_meal' | 'independent';
 
 export type TimeSlot = 'morning' | 'noon' | 'evening' | 'bedtime';
 
 export const TIME_SLOT_LABELS: Record<TimeSlot, string> = {
-  morning: '早晨',
-  noon: '中午',
-  evening: '傍晚',
+  morning: '晨间',
+  noon: '午间',
+  evening: '晚间',
   bedtime: '睡前',
 };
 
 export const TIME_SLOT_HOURS: Record<TimeSlot, string> = {
-  morning: '07:00',
+  morning: '08:00',
   noon: '12:00',
-  evening: '18:00',
+  evening: '20:00',
   bedtime: '21:30',
 };
 
@@ -29,6 +29,7 @@ export const DISEASE_LABELS: Record<DiseaseCategory, string> = {
   diabetes: '糖尿病',
   hypertension: '高血压',
   hyperlipidemia: '高血脂',
+  other: '其他慢病',
 };
 
 export interface Medication {
@@ -76,4 +77,4 @@ export interface DiseaseTemplate {
   commonMedications: Omit<Medication, 'id' | 'startDate' | 'prescriptionEndDate'>[];
 }
 
-export type TabType = 'dashboard' | 'medications' | 'interaction' | 'devices' | 'renewal';
+export type TabType = 'today' | 'pharmacy' | 'health';

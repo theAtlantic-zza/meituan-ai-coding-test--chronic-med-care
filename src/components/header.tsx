@@ -27,8 +27,8 @@ export default function Header() {
           </button>
           <button
             onClick={toggleElderlyMode}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-              elderlyMode ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            className={`px-3 py-1.5 rounded-full text-sm font-semibold transition-colors ${
+              elderlyMode ? 'bg-primary text-white shadow-sm shadow-primary/20' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
             {elderlyMode ? '✓ 关怀模式' : '👴 关怀模式'}

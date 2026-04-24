@@ -9,7 +9,7 @@ import {
 import { DISEASE_TEMPLATES } from '../lib/mock-data';
 
 export default function PlanView() {
-  const { medications, addMedication, removeMedication, addMedicationRequestId } = useApp();
+  const { medications, addMedication, removeMedication } = useApp();
   const [showAdd, setShowAdd] = useState(false);
   const [showOcr, setShowOcr] = useState(false);
 
@@ -20,10 +20,6 @@ export default function PlanView() {
       meds: medications.filter((m) => m.disease === key),
     }))
     .filter((g) => g.meds.length > 0);
-
-  useEffect(() => {
-    if (addMedicationRequestId > 0) setShowAdd(true);
-  }, [addMedicationRequestId]);
 
   return (
     <div className="px-4 py-4 space-y-4">

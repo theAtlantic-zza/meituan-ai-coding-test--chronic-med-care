@@ -3,6 +3,8 @@ import { DeviceReading, Medication, MedicationLog } from './types';
 const MED_KEY = 'med-care-medications';
 const LOG_KEY = 'med-care-logs';
 const DEVICE_KEY = 'med-care-device-readings';
+/** 用户点击「重置」后不再自动注入首页示例 */
+const EMPTY_AFTER_RESET_KEY = 'med-care-empty-after-reset';
 const ELDERLY_KEY = 'med-care-elderly';
 const API_KEY_KEY = 'med-care-api-key';
 const API_BASE_KEY = 'med-care-api-base';
@@ -62,8 +64,21 @@ export function saveApiConfig(config: { key: string; baseUrl: string; model: str
   localStorage.setItem(API_MODEL_KEY, config.model);
 }
 
+export function markEmptyAfterReset() {
+  localStorage.setItem(EMPTY_AFTER_RESET_KEY, '1');
+}
+
+export function clearEmptyAfterReset() {
+  localStorage.removeItem(EMPTY_AFTER_RESET_KEY);
+}
+
+export function isEmptyAfterReset(): boolean {
+  return localStorage.getItem(EMPTY_AFTER_RESET_KEY) === '1';
+}
+
 export function clearAllLocalData() {
   localStorage.removeItem(MED_KEY);
   localStorage.removeItem(LOG_KEY);
   localStorage.removeItem(DEVICE_KEY);
+  markEmptyAfterReset();
 }

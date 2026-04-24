@@ -3,7 +3,12 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { DeviceReading, Medication, MedicationLog, TabType, TimeSlot } from './types';
 import * as store from './store';
-import { generateMockDeviceReadings, getDefaultMedications } from './mock-data';
+import {
+  generateMockDeviceReadings,
+  getDefaultMedications,
+  getShowcaseMedications,
+  getShowcaseLogsForToday,
+} from './mock-data';
 
 interface AppContextType {
   elderlyMode: boolean;
@@ -21,9 +26,8 @@ interface AppContextType {
   apiConfig: { key: string; baseUrl: string; model: string };
   setApiConfig: (config: { key: string; baseUrl: string; model: string }) => void;
   loadDemo: () => void;
+  restoreShowcase: () => void;
   clearDemo: () => void;
-  requestAddMedication: () => void;
-  addMedicationRequestId: number;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -33,11 +37,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [medications, setMedicationsState] = useState<Medication[]>([]);
   const [logs, setLogs] = useState<MedicationLog[]>([]);
   const [deviceReadings, setDeviceReadings] = useState<DeviceReading[]>([]);
-  const [activeTab, setActiveTab] = useState<TabType>('dashboard');
+  const [activeTab, setActiveTab] = useState<TabType>('today');
   const [apiConfig, setApiConfigState] = useState({
     key: '', baseUrl: 'https://api.openai.com/v1', model: 'gpt-4o-mini',
   });
-  const [addMedicationRequestId, setAddMedicationRequestId] = useState(0);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -66,6 +69,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const addMedication = useCallback((med: Medication) => {
+    store.clearEmptyAfterReset();
     setMedicationsState((prev) => {
       const next = [...prev, med];
       store.saveMedications(next);
@@ -120,9 +124,26 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const loadDemo = useCallback(() => {
+    store.clearEmptyAfterReset();
     const meds = getDefaultMedications();
     setMedicationsState(meds);
+    setLogs([]);
     store.saveMedications(meds);
+    store.saveLogs([]);
+  }, []);
+
+  const restoreShowcase = useCallback(() => {
+    store.clearEmptyAfterReset();
+    const today = new Date().toISOString().split('T')[0];
+    const meds = getShowcaseMedications();
+    const lg = getShowcaseLogsForToday(today);
+    const dr = generateMockDeviceReadings();
+    setMedicationsState(meds);
+    setLogs(lg);
+    setDeviceReadings(dr);
+    store.saveMedications(meds);
+    store.saveLogs(lg);
+    store.saveDeviceReadings(dr);
   }, []);
 
   const clearDemo = useCallback(() => {
@@ -130,10 +151,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setMedicationsState([]);
     setLogs([]);
     setDeviceReadings([]);
-  }, []);
-
-  const requestAddMedication = useCallback(() => {
-    setAddMedicationRequestId((v) => v + 1);
   }, []);
 
   if (!loaded) return null;
@@ -146,9 +163,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       deviceReadings, syncDeviceMock,
       activeTab, setActiveTab,
       apiConfig, setApiConfig,
-      loadDemo, clearDemo,
-      requestAddMedication,
-      addMedicationRequestId,
+      loadDemo, restoreShowcase, clearDemo,
     }}>
       {children}
     </AppContext.Provider>

@@ -1,4 +1,4 @@
-import { DiseaseTemplate, Medication, DeviceReading, DrugInteraction } from './types';
+import { DiseaseTemplate, Medication, MedicationLog, DeviceReading, DrugInteraction } from './types';
 
 export const DISEASE_TEMPLATES: DiseaseTemplate[] = [
   {
@@ -61,6 +61,77 @@ export const DISEASE_TEMPLATES: DiseaseTemplate[] = [
     ],
   },
 ];
+
+/** 轻量示例：4 次服药（2 已打卡 + 2 待打卡），进度 50%，与产品稿一致便于一眼扫完 */
+export function getShowcaseMedications(): Medication[] {
+  const now = new Date();
+  const urgent = new Date(now);
+  urgent.setDate(urgent.getDate() + 5);
+  const soon = new Date(now);
+  soon.setDate(soon.getDate() + 12);
+  const normal = new Date(now);
+  normal.setDate(normal.getDate() + 45);
+  const long = new Date(now);
+  long.setDate(long.getDate() + 70);
+  return [
+    {
+      id: 'show-1',
+      name: '阿司匹林肠溶片',
+      dosage: '100mg',
+      frequency: '每日1次',
+      timeSlots: ['morning'],
+      mealRelation: 'independent',
+      disease: 'hypertension',
+      startDate: now.toISOString(),
+      prescriptionEndDate: urgent.toISOString(),
+      notes: '口服 · 1片 (100mg)',
+    },
+    {
+      id: 'show-2',
+      name: '苯磺酸氨氯地平片',
+      dosage: '5mg',
+      frequency: '每日1次',
+      timeSlots: ['noon'],
+      mealRelation: 'independent',
+      disease: 'hypertension',
+      startDate: now.toISOString(),
+      prescriptionEndDate: normal.toISOString(),
+      notes: '口服 · 1片 (5mg)',
+    },
+    {
+      id: 'show-3',
+      name: '二甲双胍缓释片',
+      dosage: '0.5g',
+      frequency: '每日1次',
+      timeSlots: ['evening'],
+      mealRelation: 'after_meal',
+      disease: 'diabetes',
+      startDate: now.toISOString(),
+      prescriptionEndDate: soon.toISOString(),
+      notes: '口服 · 1片 (0.5g)',
+    },
+    {
+      id: 'show-4',
+      name: '阿托伐他汀钙片',
+      dosage: '20mg',
+      frequency: '每日1次',
+      timeSlots: ['bedtime'],
+      mealRelation: 'independent',
+      disease: 'hyperlipidemia',
+      startDate: now.toISOString(),
+      prescriptionEndDate: long.toISOString(),
+      notes: '口服 · 1片 (20mg)',
+    },
+  ];
+}
+
+export function getShowcaseLogsForToday(today: string): MedicationLog[] {
+  const t = new Date().toISOString();
+  return [
+    { id: 'show-log-1', medicationId: 'show-1', date: today, timeSlot: 'morning', taken: true, takenAt: t },
+    { id: 'show-log-2', medicationId: 'show-2', date: today, timeSlot: 'noon', taken: true, takenAt: t },
+  ];
+}
 
 export function getDefaultMedications(): Medication[] {
   const now = new Date();
