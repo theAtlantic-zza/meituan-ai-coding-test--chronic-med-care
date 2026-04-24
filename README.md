@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# 💊 慢病用药小管家
 
-First, run the development server:
+**帮助慢性病患者管理用药计划、智能提醒、药物查询的 AI 助手**
+
+![Next.js](https://img.shields.io/badge/Next.js_16-000?logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?logo=tailwindcss&logoColor=white)
+![React](https://img.shields.io/badge/React_19-61DAFB?logo=react&logoColor=black)
+
+</div>
+
+---
+
+## 产品背景
+
+> 慢性病患者线上复诊开药后，常忘记按时服药或重复购买，缺乏从"问诊→购药→用药→续方"的连贯服务。
+
+本应用聚焦**用药管理**环节，帮助患者（尤其是老年人）：
+
+- 按时间线管理每日用药，一键打卡
+- 查询药物相互作用（AI 驱动）
+- 追踪处方有效期，提醒及时续方
+- 连接智能设备数据，关联用药效果
+
+## 功能亮点
+
+### 📋 今日用药
+
+按时间段（早晨/中午/傍晚/睡前）展示用药计划，点击即可打卡。进度条实时显示今日依从率。
+
+### 💊 药箱管理
+
+支持按病种（糖尿病/高血压/高血脂）分类管理药物。内置常见药物模板，老年用户无需手动输入复杂信息。
+
+### 🔍 药物相互作用查询（AI）
+
+输入两种药物，AI 检查是否存在相互作用，按高/中/低风险分级展示，并给出用药建议。
+
+**Token 消耗策略**：简单提醒用本地规则（零 token），仅药物查询等复杂场景调用 AI（gpt-4o-mini，约 200 token/次）。
+
+### 📱 健康数据（设备 Mock）
+
+模拟对接血糖仪、血压计、智能手表的数据。当血糖偏高时自动提示关注用药。
+
+> 当前为 Mock 接口，展示产品与智能设备的数据联动设计。实际产品对接设备厂商 SDK。
+
+### 📅 续方管理
+
+追踪每种药物的处方有效期，按紧急度颜色标记（红/黄/绿），到期前提醒用户线上续方。
+
+### 👴 关怀模式（适老化）
+
+一键切换大字号、大按钮、高对比度。技术实现：CSS 变量缩放 rem 基准值，一套代码两种体验。
+
+### 🔑 BYOK（自带 API Key）
+
+支持 OpenAI / DeepSeek 等兼容接口。不配置 Key 则自动使用演示数据（Mock），体验完全一致。
+
+## AI 安全边界
+
+本应用严格遵守医疗 AI 边界：
+
+- **不诊断、不开处方、不替代医嘱**
+- 每个 AI 输出页面均有免责提示
+- 设备数据异常提示措辞为"建议关注"，不做诊断性判断
+- 药物查询结果始终附带"请咨询医生或药师确认"
+
+## 快速开始
 
 ```bash
+git clone <repo-url>
+cd med-care
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 [http://localhost:3000](http://localhost:3000)。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 配置 AI（可选）
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+点击页面右上角 🔑 按钮，输入 API Key 和 Base URL。密钥仅存储在浏览器本地。
 
-## Learn More
+## 项目结构
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── api/check-interaction/route.ts  → 药物相互作用 AI 接口
+│   ├── page.tsx                        → 单页应用主入口
+│   ├── layout.tsx                      → 根布局
+│   └── globals.css                     → 全局样式 + 关怀模式
+├── components/
+│   ├── header.tsx                      → 顶栏（关怀模式 + API Key）
+│   ├── nav-bar.tsx                     → 底部导航
+│   ├── dashboard-view.tsx              → 今日用药时间线
+│   ├── plan-view.tsx                   → 药箱管理 + 添加药物
+│   ├── interaction-view.tsx            → 药物相互作用查询
+│   ├── device-view.tsx                 → 设备数据面板
+│   └── renewal-view.tsx                → 续方管理
+└── lib/
+    ├── types.ts                        → 核心类型定义
+    ├── mock-data.ts                    → 疾病模板 + Mock 数据
+    ├── store.ts                        → localStorage 持久化
+    └── context.tsx                     → React Context 全局状态
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 设计决策
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+详见 [DEVELOPMENT.md](./DEVELOPMENT.md)。
 
-## Deploy on Vercel
+## 技术栈
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| 层 | 技术 |
+|---|---|
+| 框架 | Next.js 16 (App Router) |
+| 语言 | TypeScript (strict) |
+| 样式 | Tailwind CSS v4 |
+| 状态管理 | React Context + localStorage |
+| AI | OpenAI-compatible API + Mock fallback |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+<div align="center">
+
+**慢病用药小管家** — AI 辅助，你做决定。
+
+</div>
